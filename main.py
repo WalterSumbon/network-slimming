@@ -178,7 +178,7 @@ if __name__ == '__main__':  #
 
     best_prec1 = 0.
     for epoch in range(args.start_epoch, args.epochs):
-        if epoch in [int(args.epochs*0.5), int(args.epochs*0.75)]:
+        if epoch in [int(args.epochs*0.5), int(args.epochs*0.7), int(args.epochs*0.9)]:
             for param_group in optimizer.param_groups:
                 param_group['lr'] *= 0.1
         train(epoch)
