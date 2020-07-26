@@ -103,8 +103,7 @@ if __name__ == '__main__':  #
     if args.refine:
         checkpoint = torch.load(args.refine)
         model = models.__dict__[args.arch](dataset=args.dataset, depth=args.depth, cfg=checkpoint['cfg'])
-        if not args.fs: #train from scratch
-            model.load_state_dict(checkpoint['state_dict'])
+        model.load_state_dict(checkpoint['state_dict'])
     else:
         model = models.__dict__[args.arch](dataset=args.dataset, depth=args.depth)
 
@@ -131,6 +130,11 @@ if __name__ == '__main__':  #
         for m in model.modules():
             if isinstance(m, nn.BatchNorm2d):
                 m.weight.grad.data.add_(args.s*torch.sign(m.weight.data))  # L1
+
+    def initiate():
+        for m in model.modules():
+            if isinstance(m, nn.BatchNorm2d) or isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+                m.reset_parameters()
 
     def train(epoch):
         model.train()
@@ -176,6 +180,9 @@ if __name__ == '__main__':  #
         if is_best:
             shutil.copyfile(os.path.join(filepath, 'checkpoint.pth.tar'), os.path.join(filepath, 'model_best.pth.tar'))
 
+    if args.fs:
+        initiate()
+    
     best_prec1 = 0.
     for epoch in range(args.start_epoch, args.epochs):
         if epoch in [int(args.epochs*0.5), int(args.epochs*0.7), int(args.epochs*0.9)]:
