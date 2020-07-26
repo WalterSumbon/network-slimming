@@ -169,7 +169,7 @@ echo ft
 startTime=`date +%%Y%%m%%d-%%H:%%M`
 startTime_s=`date +%%s`
 
-python main.py --refine ./results/depth-${depth}/percent-${percent}/pruned --dataset ${dataset} --arch ${arch} --depth ${depth} --epochs ${epochs} --save ./${dirname} --lr ${lr} 
+python main.py --refine ./results/depth-${depth}/percent-${percent}/pruned/pruned.pth.tar --dataset ${dataset} --arch ${arch} --depth ${depth} --epochs ${epochs} --save ./${dirname} --lr ${lr} 
 
 endTime=`date +%%Y%%m%%d-%%H:%%M`
 endTime_s=`date +%%s`
@@ -201,7 +201,7 @@ percents=(%s)
 
 for percent in ${percents[@]}
 do
-dirname="results/depth-${depth}/percent-${percent}/ft" 
+dirname="results/depth-${depth}/percent-${percent}/fs" 
 
 mkdir -p ${dirname}
 echo ${dataset}
@@ -216,7 +216,7 @@ echo fs
 startTime=`date +%%Y%%m%%d-%%H:%%M`
 startTime_s=`date +%%s`
 
-python main.py --refine ./results/depth-${depth}/percent-${percent}/pruned --dataset ${dataset} --arch ${arch} --depth ${depth} --epochs ${epochs} --save ./${dirname} --lr ${lr} -fs
+python main.py --refine ./results/depth-${depth}/percent-${percent}/pruned/pruned.pth.tar --dataset ${dataset} --arch ${arch} --depth ${depth} --epochs ${epochs} --save ./${dirname} --lr ${lr} -fs
 
 endTime=`date +%%Y%%m%%d-%%H:%%M`
 endTime_s=`date +%%s`
